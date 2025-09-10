@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-12 col-xl-10">
+    <div class="card card-hero shadow border-0">
+      <div class="card-body p-4 p-md-5">
+
+        <!-- Header Section -->
+        <div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
+          <div>
+            <h1 class="h3 mb-1 fw-bold text-dark">
+              Welcome, <span class="grad-orange">{{ name }}</span>!
+            </h1>
+
+            <!-- UID and Email Info -->
+            <div class="info-chips mt-2 d-flex flex-column flex-sm-row gap-2">
+              <div class="uid-chip" title="Your Contest UID">
+                <i class="bi bi-person-badge"></i>
+                <span class="ms-1">UID: {{ uid }}</span>
+              </div>
+              <div class="uid-chip" title="Your Email">
+                <i class="bi bi-envelope"></i>
+                <span class="ms-1">{{ email }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Test Button -->
+<!-- Replace the Start button area with this -->
+<div class="text-md-end">
+  {% if completed %}
+    <button class="btn btn-secondary btn-lg px-4" disabled>
+      <i class="bi bi-check2-circle me-1"></i> Test Completed
+    </button>
+    <div class="small text-success mt-2">Your result has been recorded.</div>
+  {% else %}
+    <a class="btn btn-cta btn-lg px-4" href="{{ url_for('start_test') }}">
+      <i class="bi bi-play-fill me-1"></i> Start Test
+    </a>
+    <div class="small text-secondary mt-2">Use the same name & email as here.</div>
+  {% endif %}
+</div>
+
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Instructions and Warning -->
+        <div class="row g-4">
+          <div class="col-12 col-lg-7">
+            <h2 class="h5 mb-2 text-dark">Latin Olympiad — Official Test</h2>
+            <ul class="list-unstyled text-secondary mb-0">
+              <li class="mb-2">
+                <i class="bi bi-check2-circle me-2 text-orange"></i>
+                Read all instructions carefully.
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check2-circle me-2 text-orange"></i>
+                Keep your <strong>UID</strong> visible.
+              </li>
+              <li class="mb-0">
+                <i class="bi bi-check2-circle me-2 text-orange"></i>
+                Click <em>Start Test</em> to open ClassMarker in a new tab.
+              </li>
+            </ul>
+          </div>
+          <div class="col-12 col-lg-5">
+            <div class="note-tile">
+              <div class="note-kicker">Heads up</div>
+              <div class="note-text">
+                Do not refresh or use the back button during the test.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /card-body -->
+    </div>
+  </div>
+</div>
+{% endblock %}
