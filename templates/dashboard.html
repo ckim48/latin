@@ -8,8 +8,8 @@
         <!-- Header Section -->
         <div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
           <div>
-            <h1 class="h3 mb-1 fw-bold text-dark">
-              Welcome, <span class="grad-orange">{{ name }}</span>!
+            <h1 class="h3 mb-1 fw-bold" style="color:var(--espresso);">
+              Welcome, <span class="grad-taupe">{{ name }}</span>!
             </h1>
 
             <!-- UID and Email Info -->
@@ -24,58 +24,187 @@
               </div>
             </div>
           </div>
-
-          <!-- Start Test Button -->
-<!-- Replace the Start button area with this -->
-<div class="text-md-end">
-  {% if completed %}
-    <button class="btn btn-secondary btn-lg px-4" disabled>
-      <i class="bi bi-check2-circle me-1"></i> Test Completed
-    </button>
-    <div class="small text-success mt-2">Your result has been recorded.</div>
-  {% else %}
-    <a class="btn btn-cta btn-lg px-4" href="{{ url_for('start_test') }}">
-      <i class="bi bi-play-fill me-1"></i> Start Test
-    </a>
-    <div class="small text-secondary mt-2">Use the same name & email as here.</div>
-  {% endif %}
-</div>
-
         </div>
 
         <hr class="my-4">
 
-        <!-- Instructions and Warning -->
-        <div class="row g-4">
+        <!-- Instructions and Warning (top area) -->
+        <div class="row g-4 mb-4">
           <div class="col-12 col-lg-7">
-            <h2 class="h5 mb-2 text-dark">Latin Olympiad — Official Test</h2>
-            <ul class="list-unstyled text-secondary mb-0">
+            <h3 class="h5 mb-3" style="color:var(--espresso);">Important Instructions</h3>
+            <ul class="list-unstyled mb-0" style="color:var(--ink);">
               <li class="mb-2">
-                <i class="bi bi-check2-circle me-2 text-orange"></i>
-                Read all instructions carefully.
+                <i class="bi bi-check2-circle me-2 text-taupe"></i>
+                Read all instructions carefully before starting.
               </li>
               <li class="mb-2">
-                <i class="bi bi-check2-circle me-2 text-orange"></i>
-                Keep your <strong>UID</strong> visible.
+                <i class="bi bi-check2-circle me-2 text-taupe"></i>
+                Keep your <strong>UID</strong> visible at all times.
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check2-circle me-2 text-taupe"></i>
+                Each test can only be attempted once.
               </li>
               <li class="mb-0">
-                <i class="bi bi-check2-circle me-2 text-orange"></i>
-                Click <em>Start Test</em> to open ClassMarker in a new tab.
+                <i class="bi bi-check2-circle me-2 text-taupe"></i>
+                Use the same name and email as your registration.
               </li>
             </ul>
           </div>
           <div class="col-12 col-lg-5">
-            <div class="note-tile">
+            <div class="note-tile shadow-sm">
               <div class="note-kicker">Heads up</div>
               <div class="note-text">
-                Do not refresh or use the back button during the test.
+                Do not refresh or use the browser back button during the test. Once completed, the test will be locked and cannot be reopened.
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Section Title -->
+        <div class="text-center mb-4">
+          <h2 class="h4 fw-bold" style="color:var(--espresso);">Select Your Exam Topic</h2>
+          <p class="text-muted">Choose one of the tests below. Once you complete a test, it will be locked.</p>
+        </div>
+
+        <!-- Grid of Exams -->
+        <div class="row g-4">
+          {% for key, test in tests.items() %}
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card test-card shadow-sm border-0 h-100">
+              <div class="card-body d-flex flex-column justify-content-between">
+
+                <!-- Test Icon and Title -->
+                <div class="text-center mb-3">
+                  <div class="test-icon mb-2">
+                    <i class="bi bi-journal-text fs-1 text-taupe"></i>
+                  </div>
+                  <h5 class="fw-bold" style="color:var(--espresso);">{{ test.label }}</h5>
+                  <p class="small text-muted mb-0">Latin Olympiad Official Exam</p>
+                </div>
+
+                <!-- Button Area -->
+                <div class="mt-auto text-center">
+                  {% if status.get(key) %}
+                    <button class="btn btn-secondary rounded-pill btn-start px-4" disabled>
+                      <i class="bi bi-check2-circle me-1"></i> Completed
+                    </button>
+                  {% else %}
+                    <a class="btn btn-cta rounded-pill btn-start px-4" href="{{ url_for('start_test', test_key=key) }}">
+                      <i class="bi bi-play-fill me-1"></i> Start Test
+                    </a>
+                  {% endif %}
+                </div>
+
+              </div>
+            </div>
+          </div>
+          {% endfor %}
         </div>
 
       </div><!-- /card-body -->
     </div>
   </div>
 </div>
+
+<style>
+  :root {
+    --sand:#F6F3EC;
+    --taupe:#B9A590;
+    --espresso:#574C3F;
+    --ink:#2b2b2b;
+  }
+
+  body {
+    background:
+      radial-gradient(60% 80% at 20% 10%, rgba(185,165,144,.15), transparent 60%),
+      radial-gradient(70% 90% at 90% 100%, rgba(87,76,63,.1), transparent 60%),
+      var(--sand);
+  }
+
+  /* Gradient taupe text */
+  .grad-taupe {
+    background: var(--espresso);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-taupe { color: var(--taupe); }
+
+  /* UID Chip Styling */
+  .uid-chip {
+    background-color: #fff;
+    border: 1px solid var(--espresso) !important; /* Espresso border */
+    border-radius: 20px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.9rem;
+    color: var(--espresso) !important; /* Text and icon are same espresso tone */
+    display: flex;
+    align-items: center;
+  }
+  .uid-chip i {
+    color: var(--espresso) !important; /* Icon color same as text */
+  }
+
+  /* Buttons */
+  .btn-cta {
+    background-color: var(--espresso);
+    color: #fff;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(87, 76, 63, 0.25); /* Added box shadow */
+  }
+  .btn-cta:hover {
+    background-color: #3f372d;
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(87, 76, 63, 0.35); /* Stronger on hover */
+  }
+
+  /* Start button sizing */
+  .btn-start {
+    min-width: 140px;
+    font-size: 0.95rem;
+  }
+
+  /* Cards */
+  .test-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #fff;
+  }
+  .test-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .test-icon {
+    background: #f2ebe5;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--espresso);
+  }
+
+  /* Heads-up Note Tile */
+  .note-tile {
+    background: #fdfaf7;
+    border-left: 4px solid var(--taupe);
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  .note-kicker {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--taupe);
+    margin-bottom: 0.5rem;
+  }
+  .note-text {
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+</style>
 {% endblock %}

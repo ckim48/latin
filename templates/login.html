@@ -1,26 +1,149 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
+
+<style>
+  :root {
+    --sand:#F6F3EC;
+    --taupe:#B9A590;
+    --espresso:#574C3F;
+    --ink:#2b2b2b;
+  }
+
+  body {
+    background:
+      radial-gradient(60% 80% at 20% 10%, rgba(185,165,144,.25), transparent 60%),
+      radial-gradient(70% 90% at 90% 100%, rgba(87,76,63,.18), transparent 60%),
+      var(--sand);
+  }
+
+  .auth-wrap {
+    min-height: calc(100vh - 4rem);
+    padding: 3rem 1rem;
+  }
+
+  .card-auth {
+    border: 1px solid rgba(87,76,63,.12);
+    border-radius: 1rem;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 20px 40px rgba(87,76,63,.12);
+  }
+
+  .form-label { font-weight: 600; color: var(--espresso); }
+  .form-control {
+    border-radius: .65rem;
+    border: 1px solid rgba(87,76,63,.18);
+    background: #fff;
+  }
+  .form-control:focus {
+    border-color: var(--taupe);
+    box-shadow: 0 0 0 .25rem rgba(185,165,144,.25);
+  }
+
+  .btn-brand {
+    --bs-btn-bg: var(--espresso);
+    --bs-btn-border-color: var(--espresso);
+    --bs-btn-hover-bg: #3f372d;
+    --bs-btn-hover-border-color: #3f372d;
+    --bs-btn-color: #fff;
+    border-radius: .8rem;
+    font-weight: 700;
+    letter-spacing: .2px;
+    padding: .7rem 1rem;
+  }
+
+  .muted-link a {
+    color: var(--espresso);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(87,76,63,.25);
+  }
+  .muted-link a:hover {
+    color: #3f372d;
+    border-color: #3f372d;
+  }
+
+  /* Toast Styling */
+  .toast-container {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 2000;
+  }
+  .toast-custom {
+    background: var(--espresso);
+    color: #fff;
+    border: none;
+    border-radius: .75rem;
+    padding: .75rem 1rem;
+    min-width: 260px;
+    box-shadow: 0 10px 20px rgba(87,76,63,.2);
+  }
+  .toast-custom .toast-header {
+    background: transparent;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+  }
+  .toast-custom .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+  }
+</style>
+
+<!-- Flash Toast Container -->
+<div class="toast-container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      <div class="toast align-items-center toast-custom" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="4000">
+        <div class="d-flex">
+          <div class="toast-body">
+            {{ message }}
+          </div>
+          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+<div class="container auth-wrap d-flex align-items-center justify-content-center">
   <div class="col-12 col-md-6 col-lg-5">
-    <div class="card shadow-sm">
-      <div class="card-body p-4">
-        <h1 class="h4 mb-3">Log in</h1>
+    <div class="card card-auth">
+      <div class="card-body p-4 p-md-5">
+        <h1 class="h4 mb-3" style="color:var(--espresso);">Log in</h1>
+
         <form method="post">
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input name="email" type="email" class="form-control" required>
+            <input name="email" type="email" class="form-control" placeholder="you@example.com" required>
           </div>
+
           <div class="mb-3">
             <label class="form-label">Password</label>
-            <input name="password" type="password" class="form-control" required>
+            <input name="password" type="password" class="form-control" placeholder="Enter your password" required>
           </div>
-          <button class="btn btn-primary w-100">Log in</button>
+
+          <button class="btn btn-brand w-100">Log in</button>
         </form>
-        <div class="text-center mt-3">
+
+        <div class="text-center mt-3 muted-link">
           <a href="{{ url_for('register') }}">Create a new account</a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  // Auto-show Bootstrap toasts
+  document.addEventListener('DOMContentLoaded', function () {
+    const toastElList = [].slice.call(document.querySelectorAll('.toast'));
+    toastElList.map(function (toastEl) {
+      new bootstrap.Toast(toastEl).show();
+    });
+  });
+</script>
+
 {% endblock %}

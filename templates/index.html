@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Latin Contest — National Classics Challenge</title>
+  <meta name="description" content="The National Latin Contest: vocabulary, grammar, culture & myth. Open to middle and high school students."/>
+  <meta name="keywords" content="Latin, contest, classics, competition, mythology, grammar"/>
+
+  <!-- Favicons (replace) -->
+  <link rel="icon" href="assets/img/favicon.png"/>
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"/>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/glightbox@3.2.0/dist/css/glightbox.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/swiper@9.4.10/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Theme (single-file) -->
+  <style>
+    /* =======================
+       THEME VARIABLES
+       ======================= */
+    :root{
+      /* Fonts */
+      --default-font: "Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --heading-font: "DM Serif Display", Georgia, serif;
+      --nav-font: var(--default-font);
+
+      /* Palette */
+      --background-color:#ffffff;
+      --surface-color:#ffffff;
+      --default-color:#3a3d40;
+      --heading-color:#0a2b2b;
+      --contrast-color:#ffffff;
+
+      /* Accents (teal + gold) */
+      --accent-color:#0E7C7B;   /* primary */
+      --accent-2:#E7B10A;       /* gold accent */
+      --accent-3:#0B525B;       /* deep teal for hovers */
+      --muted:#6b737a;
+
+      /* Nav */
+      --nav-color:#0c2a2a;
+      --nav-hover-color: var(--accent-color);
+      --nav-mobile-background-color:#ffffff;
+      --nav-dropdown-background-color:#ffffff;
+      --nav-dropdown-color:#0c2a2a;
+      --nav-dropdown-hover-color:var(--accent-color);
+
+      scroll-behavior:smooth;
+    }
+
+    /* =======================
+       BASICS
+       ======================= */
+    body{
+      color:var(--default-color);
+      background:var(--background-color);
+      font-family:var(--default-font);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--accent-color); text-decoration:none; transition:.25s}
+    a:hover{color:color-mix(in srgb, var(--accent-color), transparent 20%);}
+    h1,h2,h3,h4,h5,h6{
+      color:var(--heading-color);
+      font-family:var(--heading-font);
+      letter-spacing:.2px;
+    }
+    .btn-brand{
+      background:var(--accent-color);
+      color:#fff;
+      border:none;
+      border-radius:.6rem;
+      padding:.7rem 1.1rem;
+      font-weight:600;
+    }
+    .btn-brand:hover{background:var(--accent-3); color:#fff;}
+    .btn-ghost{
+      background:transparent; color:#fff; border:2px solid #fff; border-radius:.6rem; padding:.6rem 1rem; font-weight:600;
+    }
+    .btn-ghost:hover{background:#ffffff; color:#0f2a2a;}
+
+    /* =======================
+       HEADER / NAV
+       ======================= */
+    .header{
+      background:#ffffffcf;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position:sticky; top:0; z-index:999;
+      transition: box-shadow .2s ease;
+      border-bottom:1px solid #eef2f2;
+    }
+    .header .logo img{max-height:64px}
+    .header .logo h1{font-size:28px; margin:0; color:var(--heading-color)}
+    .scrolled .header{box-shadow:0 6px 24px rgba(0,0,0,.06)}
+
+    /* =======================
+       HERO
+       ======================= */
+    .hero{
+      position:relative;
+      min-height: calc(100vh - 80px);
+      display:flex; align-items:center; justify-content:center;
+      color:#fff; overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(1200px 700px at 70% 15%, color-mix(in srgb, var(--accent-color), transparent 30%) 0%, transparent 60%),
+                  linear-gradient(180deg, rgba(10,43,43,.85) 0%, rgba(10,43,43,.75) 35%, rgba(10,43,43,.6) 100%);
+      z-index:1;
+    }
+    .hero > img{
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+      filter:saturate(0.9) contrast(1.05);
+    }
+    .hero .container{position:relative; z-index:2}
+    .hero h2{font-size:3rem; line-height:1.05; color:#fff}
+    .hero p{font-size:1.15rem; color:#e7f1f1}
+    .pill{
+      display:inline-flex; gap:.5rem; align-items:center;
+      padding:.4rem .8rem; border-radius:999px; font-weight:700; font-size:.85rem;
+      background: rgba(231,177,10,.15); color:#ffe8a6; border:1px solid rgba(231,177,10,.35);
+    }
+
+    /* =======================
+       SECTIONS
+       ======================= */
+    section{padding:72px 0}
+    .section-bg { position:relative; padding:140px 0; }
+    .section-bg::before{
+      content:""; position:absolute; inset:60px 0; transform:skewY(-3deg);
+      background: #F5FBFB;
+      z-index:0;
+    }
+    .section-bg .container{position:relative; z-index:1}
+
+    .dark-background{
+      --default-color:#ffffff;
+      --heading-color:#ffffff;
+      background:
+        radial-gradient(800px 500px at 20% -10%, rgba(231,177,10,.25), transparent 60%),
+        linear-gradient(180deg, #0B3B3C 0%, #0E7C7B 100%);
+      color:var(--default-color);
+    }
+    .dark-background h2,.dark-background h3{color:#fff}
+
+    .text-justify{text-align:justify}
+
+    /* Cards */
+    .card{
+      border:1px solid #e8f0f0;
+      border-radius:1rem;
+    }
+    .card .bi{opacity:.9}
+
+    /* Timeline */
+    .timeline{list-style:none; padding:0; margin:0}
+    .timeline li{position:relative; padding-left:28px; margin-bottom:1rem}
+    .timeline li::before{
+      content:""; position:absolute; left:8px; top:.35rem; width:8px; height:8px; border-radius:50%;
+      background:var(--accent-2);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-2), transparent 70%);
+    }
+
+    /* Footer */
+    .footer{
+      background:#0A2B2B; color:#cfe6e6; font-size:14px; padding-top:28px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .footer a{color:#cfe6e6}
+    .footer a:hover{color:var(--accent-2)}
+    .footer .copyright{border-top:1px solid rgba(255,255,255,.08); padding:18px 0 8px}
+
+    /* Scroll top */
+    #scroll-top{
+      position:fixed; right:16px; bottom:16px; z-index:9999;
+      width:42px; height:42px; border-radius:.6rem; display:flex; align-items:center; justify-content:center;
+      background:var(--accent-2); color:#172b2b; opacity:0; visibility:hidden; transition:.3s;
+      box-shadow: 0 10px 24px rgba(0,0,0,.15);
+    }
+    #scroll-top.active{opacity:1; visibility:visible}
+    #scroll-top:hover{filter:brightness(.95)}
+    .disable{color:#98a2a8}
+    @media (max-width:768px){
+      .hero h2{font-size:2.25rem}
+      .hero p{font-size:1rem}
+    }
+  </style>
+</head>
+<body class="index-page">
+
+  <!-- =======================
+       HEADER
+       ======================= -->
+  <header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center">
+      <a href="#hero" class="logo d-flex align-items-center me-auto">
+        <img src="assets/img/logo.png" alt="Latin Contest logo"/>
+        <!-- Optional text logo -->
+        <!-- <h1 class="ms-2">Latin Contest</h1> -->
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul class="m-0">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#eligibility">Eligibility</a></li>
+          <li><a href="#timeline">Timeline</a></li>
+          <li><a href="#event">Event</a></li>
+          <li><a href="docs/rules.pdf" target="_blank" rel="noopener">Rules</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn btn-brand d-none d-md-inline-block" href="#register">Register</a>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- =======================
+         HERO
+         ======================= -->
+    <section id="hero" class="hero section">
+      <img src="assets/img/hero-latin.jpg" alt="Marble busts and columns — classical backdrop"/>
+
+      <div class="container text-center" data-aos="fade-up" data-aos-delay="50">
+        <span class="pill mb-3"><i class="bi bi-trophy-fill"></i> National Classics Challenge</span>
+        <h2 class="mt-2"><strong>Latin Contest</strong> 2025</h2>
+        <p class="mt-2">Vocabulary • Grammar • Myth • Culture — celebrate Latin with students nationwide.</p>
+
+        <div class="d-flex flex-column flex-md-row gap-3 justify-content-center mt-4" data-aos="fade-up" data-aos-delay="200">
+          <a href="#register" class="btn btn-brand"><i class="bi bi-pencil-square me-1"></i> Register Now</a>
+          <a href="docs/syllabus.pdf" class="btn btn-ghost"><i class="bi bi-file-earmark-text me-1"></i> Download Syllabus</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================
+         ABOUT
+         ======================= -->
+    <section id="about" class="about section">
+      <div class="container position-relative">
+        <div class="row gy-5 align-items-center">
+          <div class="content col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <h3>About the Latin Contest</h3>
+            <p class="text-justify">
+              The Latin Contest is a national celebration of classical learning. Students demonstrate mastery of
+              <em>lingua Latina</em> across reading comprehension, grammar, culture, and myth while developing
+              confidence and community with fellow classicists.
+            </p>
+            <p class="text-justify">
+              Events are offered for multiple divisions (Novice through Advanced), with equitable rubrics and optional
+              enrichment workshops led by faculty and alumni. Schools may participate on-site or online with secure proctoring.
+            </p>
+          </div>
+          <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <img class="img-fluid rounded-3 d-block mx-auto" src="assets/img/about-latin.jpg" alt="Students studying Latin with teacher"/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================
+         PROGRAM HIGHLIGHTS (teal gradient)
+         ======================= -->
+    <section class="section section-bg dark-background">
+      <div class="container">
+        <div class="row gy-5 align-items-center">
+          <div class="col-md-6 order-md-2" data-aos="fade-up" data-aos-delay="150">
+            <img class="img-fluid rounded-3 d-block mx-auto" src="assets/img/highlights.jpg" alt="Ancient manuscript and laurel wreath"/>
+          </div>
+          <div class="content col-md-6 order-md-1" data-aos="fade-up">
+            <h3 class="mb-3">Program Highlights</h3>
+            <p class="mb-3">
+              Designed with teachers, the contest emphasizes fair assessment and joyful scholarship. Expect:
+            </p>
+            <ul class="list-unstyled m-0">
+              <li class="d-flex align-items-start mb-2"><i class="bi bi-check2-circle me-2 text-warning"></i> Multiple divisions: Novice, Intermediate, Advanced</li>
+              <li class="d-flex align-items-start mb-2"><i class="bi bi-check2-circle me-2 text-warning"></i> Culture & civilization, myth, etymology, grammar</li>
+              <li class="d-flex align-items-start mb-2"><i class="bi bi-check2-circle me-2 text-warning"></i> Optional certamen-style team round</li>
+              <li class="d-flex align-items-start"><i class="bi bi-check2-circle me-2 text-warning"></i> Teacher resources, sample tests, and rubric transparency</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================
+         ELIGIBILITY
+         ======================= -->
+    <section id="eligibility" class="py-5" data-aos="fade-up">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-lg-9">
+            <h2 class="fw-bold">Eligibility</h2>
+            <p class="text-muted">
+              Open to students in grades 6–12 (or international equivalent). Schools, homeschool groups,
+              and independent learners may participate with a registered proctor.
+            </p>
+          </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 g-4 mt-1">
+          <div class="col">
+            <div class="card border-0 shadow-sm h-100" data-aos="fade-up" data-aos-delay="50">
+              <div class="card-body d-flex align-items-center">
+                <i class="bi bi-mortarboard-fill fs-2 me-3 text-primary"></i>
+                <div>
+                  <h5 class="fw-bold mb-1">Divisions</h5>
+                  <p class="mb-0">Novice (Latin I), Intermediate (Latin II–III), Advanced (Latin IV+ / AP).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card border-0 shadow-sm h-100" data-aos="fade-up" data-aos-delay="100">
+              <div class="card-body d-flex align-items-center">
+                <i class="bi bi-people-fill fs-2 me-3 text-success"></i>
+                <div>
+                  <h5 class="fw-bold mb-1">Teams or Individuals</h5>
+                  <p class="mb-0">Compete solo and optionally join a certamen-style round with your team.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card border-0 shadow-sm h-100" data-aos="fade-up" data-aos-delay="150">
+              <div class="card-body d-flex align-items-center">
+                <i class="bi bi-shield-lock fs-2 me-3 text-warning"></i>
+                <div>
+                  <h5 class="fw-bold mb-1">Proctoring</h5>
+                  <p class="mb-0">On-site or remote with secure monitoring. Accommodations available.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card border-0 shadow-sm h-100" data-aos="fade-up" data-aos-delay="200">
+              <div class="card-body d-flex align-items-center">
+                <i class="bi bi-award fs-2 me-3 text-info"></i>
+                <div>
+                  <h5 class="fw-bold mb-1">Awards</h5>
+                  <p class="mb-0">Medals & certificates by division, plus special myth & culture citations.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Closed example button (toggle to open by removing disabled styles) -->
+        <div class="text-center my-3">
+          <a class="btn px-4 py-2 mt-4 disable" style="background-color:#c8d5d5; color:#fff; border-radius:.5rem; pointer-events:none; opacity:.8;">Signup Closed</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================
+         TIMELINE
+         ======================= -->
+    <section id="timeline" class="py-5 section section-bg">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-lg-9">
+            <h2 class="fw-bold">Contest Timeline</h2>
+            <p class="text-muted">Plan your season at a glance. Dates below reflect the 2025 cycle.</p>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-2">
+          <div class="col-lg-6">
+            <h4 class="fw-bold mb-3">National Schedule</h4>
+            <ul class="timeline">
+              <li><strong>Nov 4, 2024 – Feb 14, 2025:</strong> Registration window</li>
+              <li><strong>Feb 17 – Mar 28, 2025:</strong> Prep workshops & sample exams</li>
+              <li><strong>Mar 31 – Apr 18, 2025:</strong> Testing window (on-site or remote)</li>
+              <li><strong>May 9, 2025:</strong> Results released; certificates shipped</li>
+            </ul>
+            <p class="mb-0">Full policies & proctoring guide: <a href="docs/rules.pdf">download PDF</a>.</p>
+          </div>
+
+          <div class="col-lg-6">
+            <h4 class="fw-bold mb-3">Optional Regional Showcase</h4>
+            <p>Share your love of classics—brief lightning talks, certamen finals, teacher meetups.</p>
+            <ul class="timeline">
+              <li><strong>May 24, 2025:</strong> Online Showcase (nationwide)</li>
+              <li><strong>June 7, 2025:</strong> In-person Honors Event (host campuses TBA)</li>
+            </ul>
+            <p class="mb-0">Participation is optional and does not affect exam results.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================
+       FOOTER
+       ======================= -->
+  <footer id="footer" class="footer">
+    <div class="container text-center">
+      <p class="mb-1"><strong>Latin Contest</strong> · National Classics Challenge</p>
+      <p class="mb-2"><a href="mailto:info@latincontest.org"><i class="bi bi-envelope"></i> info@latincontest.org</a></p>
+    </div>
+    <div class="container copyright text-center">
+      <p>© <span id="year"></span> Latin Contest. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short fs-3"></i></a>
+
+  <!-- Vendor JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/glightbox@3.2.0/dist/js/glightbox.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9.4.10/swiper-bundle.min.js"></script>
+
+  <!-- Minimal Main JS -->
+  <script>
+    // AOS
+    AOS.init({ once:true, duration:700, easing:"ease-out-cubic" });
+
+    // Scroll top button
+    const st = document.getElementById('scroll-top');
+    const onScroll = () => {
+      if(window.scrollY > 300){ st.classList.add('active'); } else { st.classList.remove('active'); }
+    };
+    window.addEventListener('scroll', onScroll);
+
+    // Mobile nav toggle
+    const nav = document.getElementById('navmenu');
+    document.querySelectorAll('.mobile-nav-toggle').forEach(t=>{
+      t.addEventListener('click', ()=>{
+        document.body.classList.toggle('mobile-nav-active');
+        if (nav.querySelector('ul')) nav.querySelector('ul').classList.toggle('d-block');
+      });
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
