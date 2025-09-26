@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Admin · Users{% endblock %}
+{% block content %}
+
+<style>
+  .card-soft{ background:#fff; border:1px solid rgba(0,0,0,.06); border-radius:16px; }
+  .section-title{ color:var(--espresso); font-weight:700; }
+  .btn-espresso{ background: var(--espresso); color:#fff; border:1px solid #3f372d; border-radius:999px; padding:.5rem 1rem; font-weight:600; }
+  .btn-espresso:hover{ background:#3f372d; color:#fff; }
+  .badge-admin{ background:#7d5; color:#103; }
+
+  /* ID thumbnails */
+  .id-thumb{
+    width: 72px; height: 72px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,.08);
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .id-thumb:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.12);
+  }
+  .id-cell{ min-width: 96px; }
+</style>
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h1 class="h4 section-title m-0">Admin · Users</h1>
+  <a class="btn btn-espresso" href="{{ url_for('admin_users_csv') }}">
+    <i class="bi bi-download me-1"></i> Download CSV
+  </a>
+</div>
+
+<div class="card-soft p-3 p-md-4">
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead class="text-muted">
+        <tr>
+          <th class="id-cell">Photo ID</th>
+          <th>UID</th>
+          <th>Name / Email</th>
+          <th>School / Location</th>
+          <th>DOB / Grade / Latin</th>
+          <th>Stats</th>
+          <th>Created</th>
+          <th>Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <!-- Photo ID thumbnail (click to enlarge) -->
+          <td class="id-cell">
+            {% if u.id_image %}
+              {# Normalize path: if stored as 'static/uploads/...' keep only part after 'static/' #}
+              {% set rel = u.id_image|replace('static/', '') %}
+              <img
+                src="{{ url_for('static', filename=rel) }}"
+                alt="ID for {{ u.name }}"
+                class="id-thumb"
+                data-full="{{ url_for('static', filename=rel) }}"
+                data-name="{{ u.name }}"
+                title="Click to preview"
+              >
+            {% else %}
+              <span class="text-muted">—</span>
+            {% endif %}
+          </td>
+
+          <td class="fw-semibold" style="color:var(--espresso)">{{ u.uid }}</td>
+
+          <td>
+            <div class="fw-semibold">{{ u.name }}</div>
+            <div class="small text-muted">{{ u.email }}</div>
+          </td>
+
+          <td>
+            <div>{{ u.school or '—' }}</div>
+            <div class="small text-muted">{{ u.location or '—' }}</div>
+          </td>
+
+          <td>
+            <div>DOB: {{ u.dob or '—' }}</div>
+            <div class="small text-muted">
+              Grade: {{ u.grade or '—' }} · Latin: {{ u.latin_level or '—' }}
+            </div>
+          </td>
+
+          <td>
+            <div>
+              Attempts: <strong>{{ u.attempts_count or 0 }}</strong>
+              {% if u.completed_count %} · Completed: <strong>{{ u.completed_count }}</strong>{% endif %}
+            </div>
+            <div class="small text-muted">
+              Avg: {% if u.avg_percent is not none %}{{ '%.2f'|format(u.avg_percent) }}%{% else %}—{% endif %}
+            </div>
+          </td>
+
+          <td class="small text-muted">{{ u.created_at }}</td>
+
+          <td>
+            {% if u.is_admin %}
+              <span class="badge badge-admin">Admin</span>
+            {% else %}
+              <span class="badge text-bg-secondary">User</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="8" class="text-center text-muted py-4">No users found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Image Preview Modal -->
+<div class="modal fade" id="idPreviewModal" tabindex="-1" aria-labelledby="idPreviewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 overflow-hidden">
+      <div class="modal-header">
+        <h5 class="modal-title" id="idPreviewLabel">ID Preview</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <img id="idPreviewImg" src="" alt="ID" class="w-100 h-auto d-block">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Click any thumbnail to open preview modal
+  document.addEventListener('click', function(e){
+    const img = e.target.closest('.id-thumb');
+    if(!img) return;
+    const fullSrc = img.getAttribute('data-full');
+    const name = img.getAttribute('data-name') || 'ID Preview';
+    const modalEl = document.getElementById('idPreviewModal');
+    const modalImg = document.getElementById('idPreviewImg');
+    const modalTitle = document.getElementById('idPreviewLabel');
+    if(fullSrc && modalImg){
+      modalImg.src = fullSrc;
+      if(modalTitle) modalTitle.textContent = `ID Preview — ${name}`;
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  });
+</script>
+
+{% endblock %}
